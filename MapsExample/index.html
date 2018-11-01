@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="index.css" media="screen,projection"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcKuTypZCrQAWEbXwfkYfm39hRNdE_vuQ&callback=initMap">
+    </script>
+    <script src="map-script.js"></script> 
+    <!--Name of Tab-->
+    <title>Home</title>
+</head>   
+    
+<body>
+  <!--Menu/Header-->
+<div class="container red topBotomBordersOut">
+  <a>HOME</a>
+  <a>SERVICES</a>
+  <a>ADVERTISE</a>
+  <a>ABOUT</a>
+  <a>CONTACT</a>
+  <a>PORTAL</a>
+</div>
+    
+    <!--MAP-->
+     <div id="style-selector-control"  class="map-control">
+      <select id="style-selector" class="selector-control">
+        <option value="default">Default</option>
+        <option value="silver">Silver</option>
+        <option value="night">Night mode</option>
+        <option value="retro" selected="selected">Retro</option>
+        <option value="hiding">Hide features</option>
+      </select>
+    </div>
+    <div id="map"></div>
+</body>
+    
+
+    
+</html>
