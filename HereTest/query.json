@@ -1,0 +1,84 @@
+{
+    "query": {
+        "metrics": [
+            "Lat",
+            "Lon",
+            "Magnitude",
+            "Depth",
+            "Region",
+            "Datetime"
+        ],
+        "namespace": {
+            "tz": {
+                "source": [
+                    {
+                        "$input": "z"
+                    }
+                ]
+            },
+            "tx": {
+                "source": [
+                    {
+                        "$input": "x"
+                    }
+                ]
+            },
+            "ty": {
+                "source": [
+                    {
+                        "$input": "y"
+                    }
+                ]
+            },
+            "buffer": {
+                "source": [
+                    {
+                        "default": 0,
+                        "$input": "buffer"
+                    }
+                ]
+            },
+            "px": {
+                "source": [
+                    "Lon",
+                    "tz"
+                ],
+                "apply": [
+                    {
+                        "type": "transform",
+                        "fn": "lon_to_x"
+                    }
+                ]
+            },
+            "py": {
+                "source": [
+                    "Lat",
+                    "tz"
+                ],
+                "apply": [
+                    {
+                        "type": "transform",
+                        "fn": "lat_to_y"
+                    }
+                ]
+            },
+            "pixels": {
+                "source": [
+                    "px",
+                    "py"
+                ]
+            }
+        },
+        "filters": [
+            {
+                "pixels": {
+                    "$pixel_within_tile": [
+                        "tx",
+                        "ty",
+                        "buffer"
+                    ]
+                }
+            }
+        ]
+    }
+}
