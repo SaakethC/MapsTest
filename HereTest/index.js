@@ -1,39 +1,15 @@
-/**
- * Adds markers to the map highlighting the locations of the captials of
- * France, Italy, Germany, Spain and the United Kingdom.
- *
- * @param  {H.Map} map      A HERE Map instance within the application
- */
-function addMarkersToMap(map) {
+//define locations
   var LocLBNagar = new H.map.Marker({lat: 17.355537, lng: 78.547017});
-  map.addObject(LocLBNagar);
-
   var LocKothapet = new H.map.Marker({lat: 17.366300,lng: 78.542448});
-  map.addObject(LocKothapet);
-
   var LocLingampally = new H.map.Marker({lat: 17.490932,lng: 78.314697});
-  map.addObject(LocLingampally);
-
   var LocNalgonda = new H.map.Marker({lat: 17.065101,lng: 79.265834});
-  map.addObject(LocNalgonda);
-
   var LocMehdipatnam = new H.map.Marker({lat: 17.394991,lng: 78.441153});
-  map.addObject(LocMehdipatnam);
-}
-/**
- * Creates a new marker and adds it to a group
- * @param {H.map.Group} group       The group holding the new marker
- * @param {H.geo.Point} coordinate  The location of the marker
- * @param {String} html             Data associated with the marker
- */
-function addMarkerToGroup(group, coordinate, html) {
-  var marker = new H.map.Marker(coordinate);
-  // add custom data to the marker
+//function to add markers to a group, used latter in the info bubbles
+function addMarkerToGroup(group, marker, html) {
   marker.setData(html);
   group.addObject(marker);
 }
-
-
+//create info bubble from group you created above
 function addInfoBubble(map) {
   var group = new H.map.Group();
 
@@ -51,22 +27,40 @@ function addInfoBubble(map) {
     ui.addBubble(bubble);
   }, false);
 
-  addMarkerToGroup(group, {lat: 17.355537, lng: 78.547017},
+    //add the text, html in string form, to the objects you created earlier
+  addMarkerToGroup(group, LocLBNagar,
     '<div><a href=\'http://www.mcfc.co.uk\' >LB Nagar</a>' +
     '</div><div >City of Manchester Stadium<br>Capacity: 48,000</div>');
-  addMarkerToGroup(group, {lat: 17.366300,lng: 78.542448},
+  addMarkerToGroup(group, LocKothapet,
     '<div ><a href=\'http://www.liverpoolfc.tv\' >Kothapet</a>' +
     '</div><div >Anfield<br>Capacity: 45,362</div>');
-  addMarkerToGroup(group, {lat: 17.490932,lng: 78.314697},
+  addMarkerToGroup(group, LocLingampally,
     '<div><a href=\'http://www.mcfc.co.uk\' >Lingampally</a>' +
     '</div><div >City of Manchester Stadium<br>Capacity: 48,000</div>');
-  addMarkerToGroup(group, {lat: 17.065101,lng: 79.265834},
+  addMarkerToGroup(group, LocNalgonda,
     '<div ><a href=\'http://www.liverpoolfc.tv\' >Nalgonda</a>' +
     '</div><div >Anfield<br>Capacity: 45,362</div>');
-  addMarkerToGroup(group, {lat: 17.394991,lng: 78.441153},
+  addMarkerToGroup(group, LocMehdipatnam,
     '<div ><a href=\'http://www.liverpoolfc.tv\' >Mehdipatnam</a>' +
     '</div><div >Anfield<br>Capacity: 45,362</div>');
 
+}
+// setting the output values for each element, can replace with html latter
+function testDelegation(map){
+LocLBNagar.setData('LB Nagar');
+LocKothapet.setData('Kothapet');
+LocLingampally.setData('Lingampally');
+LocNalgonda.setData('Nalgonda');
+LocMehdipatnam.setData('Mehidipatnam!');
+
+ group.addEventListener('tap', function (evt) {
+    // Now lets log the event
+    customLog(evt.target.getData());
+  });
+  // Let's zoom to our objects by default
+  map.setViewBounds(container.getBounds());
+  // Make objects visible by adding them to the map
+  map.addObject(container);
 }
 
 /**
@@ -101,9 +95,25 @@ var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
 // Create the default UI components
 var ui = H.ui.UI.createDefault(map, defaultLayers);
 
-// Now use the map as required...
-//addMarkersToMap(map);
+
+// Step 5: create custom logging facilities
+var logContainer = document.createElement('ul');
+logContainer.className ='log';
+logContainer.innerHTML = '<li class="log-entry">Try clicking on elements</li>';
+map.getElement().appendChild(logContainer);
+
+// Helper for logging events
+function customLog(log) {
+  var entry = document.createElement('li');
+  entry.className = 'log-entry';
+  entry.textContent = log;
+  logContainer.insertBefore(entry, logContainer.firstChild);
+}
+
+
+
+//add markers and info bubbles to the map 
 addInfoBubble(map);
 
-
+testDelegation(map, customLog);
 
