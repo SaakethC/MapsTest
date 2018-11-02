@@ -5,25 +5,69 @@
  * @param  {H.Map} map      A HERE Map instance within the application
  */
 function addMarkersToMap(map) {
-  var parisMarker = new H.map.Marker({lat:48.8567, lng:2.3508});
-  map.addObject(parisMarker);
+  var LocLBNagar = new H.map.Marker({lat: 17.355537, lng: 78.547017});
+  map.addObject(LocLBNagar);
 
-  var romeMarker = new H.map.Marker({lat:41.9, lng: 12.5});
-  map.addObject(romeMarker);
+  var LocKothapet = new H.map.Marker({lat: 17.366300,lng: 78.542448});
+  map.addObject(LocKothapet);
 
-  var berlinMarker = new H.map.Marker({lat:52.5166, lng:13.3833});
-  map.addObject(berlinMarker);
+  var LocLingampally = new H.map.Marker({lat: 17.490932,lng: 78.314697});
+  map.addObject(LocLingampally);
 
-  var madridMarker = new H.map.Marker({lat:40.4, lng: -3.6833});
-  map.addObject(madridMarker);
+  var LocNalgonda = new H.map.Marker({lat: 17.065101,lng: 79.265834});
+  map.addObject(LocNalgonda);
 
-  var londonMarker = new H.map.Marker({lat:51.5008, lng:-0.1224});
-  map.addObject(londonMarker);
+  var LocMehdipatnam = new H.map.Marker({lat: 17.394991,lng: 78.441153});
+  map.addObject(LocMehdipatnam);
+}
+/**
+ * Creates a new marker and adds it to a group
+ * @param {H.map.Group} group       The group holding the new marker
+ * @param {H.geo.Point} coordinate  The location of the marker
+ * @param {String} html             Data associated with the marker
+ */
+function addMarkerToGroup(group, coordinate, html) {
+  var marker = new H.map.Marker(coordinate);
+  // add custom data to the marker
+  marker.setData(html);
+  group.addObject(marker);
 }
 
 
+function addInfoBubble(map) {
+  var group = new H.map.Group();
 
+  map.addObject(group);
 
+  // add 'tap' event listener, that opens info bubble, to the group
+  group.addEventListener('tap', function (evt) {
+    // event target is the marker itself, group is a parent event target
+    // for all objects that it contains
+    var bubble =  new H.ui.InfoBubble(evt.target.getPosition(), {
+      // read custom data
+      content: evt.target.getData()
+    });
+    // show info bubble
+    ui.addBubble(bubble);
+  }, false);
+
+  addMarkerToGroup(group, {lat: 17.355537, lng: 78.547017},
+    '<div><a href=\'http://www.mcfc.co.uk\' >LB Nagar</a>' +
+    '</div><div >City of Manchester Stadium<br>Capacity: 48,000</div>');
+  addMarkerToGroup(group, {lat: 17.366300,lng: 78.542448},
+    '<div ><a href=\'http://www.liverpoolfc.tv\' >Kothapet</a>' +
+    '</div><div >Anfield<br>Capacity: 45,362</div>');
+  addMarkerToGroup(group, {lat: 17.490932,lng: 78.314697},
+    '<div><a href=\'http://www.mcfc.co.uk\' >Lingampally</a>' +
+    '</div><div >City of Manchester Stadium<br>Capacity: 48,000</div>');
+  addMarkerToGroup(group, {lat: 17.065101,lng: 79.265834},
+    '<div ><a href=\'http://www.liverpoolfc.tv\' >Nalgonda</a>' +
+    '</div><div >Anfield<br>Capacity: 45,362</div>');
+  addMarkerToGroup(group, {lat: 17.394991,lng: 78.441153},
+    '<div ><a href=\'http://www.liverpoolfc.tv\' >Mehdipatnam</a>' +
+    '</div><div >Anfield<br>Capacity: 45,362</div>');
+
+}
 
 /**
  * Boilerplate map initialization code starts below:
@@ -44,8 +88,8 @@ var defaultLayers = platform.createDefaultLayers({
 //Step 2: initialize a map - this map is centered over Europe
 var map = new H.Map(document.getElementById('map'),
   defaultLayers.normal.map,{
-  center: {lat:50, lng:5},
-  zoom: 4,
+  center: {lat:17.25, lng:78.5},
+  zoom: 9,
   pixelRatio: pixelRatio
 });
 
@@ -58,4 +102,8 @@ var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
 var ui = H.ui.UI.createDefault(map, defaultLayers);
 
 // Now use the map as required...
-addMarkersToMap(map);
+//addMarkersToMap(map);
+addInfoBubble(map);
+
+
+
