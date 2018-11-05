@@ -10,8 +10,8 @@ body {
     top: 0;
     bottom: 0;
     width: 100%;
-    height: 82%;
-    margin-top: 9%;
+    height: 90%;
+    margin-top: auto;
 }
 
 /*Menu*/
@@ -19,7 +19,7 @@ div.container
 {
     font-family: Raleway;
     margin: 0 auto;
-	padding: 4% 2%;
+	padding: 1.5% 2%;
 	text-align: center;
 }
 
